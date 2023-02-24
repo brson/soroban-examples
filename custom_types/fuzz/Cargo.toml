@@ -1,0 +1,45 @@
+[package]
+name = "soroban-custom-types-contract-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+
+[dependencies.soroban-custom-types-contract]
+path = ".."
+features = ["testutils"]
+
+[dependencies.soroban-sdk]
+version = "0.6.0"
+features = ["testutils"]
+
+# Prevent this from interfering with workspaces
+[workspace]
+members = ["."]
+
+[profile.release]
+debug = 1
+
+[[bin]]
+name = "fuzz_target_1"
+path = "fuzz_targets/fuzz_target_1.rs"
+test = false
+doc = false
+
+[patch.'https://github.com/stellar/rs-soroban-sdk']
+soroban-sdk = { path = "../../../rs-soroban-sdk/soroban-sdk" }
+
+[patch.'https://github.com/stellar/rs-soroban-env']
+soroban-env-common = { path = "../../../rs-soroban-env/soroban-env-common" }
+soroban-env-host = { path = "../../../rs-soroban-env/soroban-env-host" }
+
+[patch.crates-io]
+soroban-sdk = { version = "0.6.0", path = "../../../rs-soroban-sdk/soroban-sdk" }
+soroban-auth = { version = "0.6.0", path = "../../../rs-soroban-sdk/soroban-auth" }
+soroban-env-common = { version = "0.0.14", path = "../../../rs-soroban-env/soroban-env-common" }
+soroban-env-host = { version = "0.0.14", path = "../../../rs-soroban-env/soroban-env-host" }

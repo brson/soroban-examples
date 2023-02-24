@@ -8,7 +8,7 @@
 
 use soroban_sdk::{contractimpl, contracttype, Address, BytesN, Env, Vec};
 
-mod token {
+pub mod token {
     soroban_sdk::contractimport!(file = "../soroban_token_spec.wasm");
 }
 

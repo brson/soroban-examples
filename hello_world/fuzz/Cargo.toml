@@ -1,0 +1,105 @@
+[package]
+name = "soroban-hello-world-contract-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+
+[dependencies.soroban-hello-world-contract]
+path = ".."
+features = ["testutils"]
+
+[dependencies.soroban-sdk]
+version = "0.6.0"
+features = ["testutils"]
+
+# Prevent this from interfering with workspaces
+[workspace]
+members = ["."]
+
+[profile.release]
+debug = 1
+
+[[bin]]
+name = "fuzz_target_1"
+path = "fuzz_targets/fuzz_target_1.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "symbol"
+path = "fuzz_targets/symbol.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "bytes"
+path = "fuzz_targets/bytes.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "vec_vec_bytes"
+path = "fuzz_targets/vec_vec_bytes.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "bytes_n"
+path = "fuzz_targets/bytes_n.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "map"
+path = "fuzz_targets/map.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "account_id"
+path = "fuzz_targets/account_id.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "address"
+path = "fuzz_targets/address.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "bitset"
+path = "fuzz_targets/bitset.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "status"
+path = "fuzz_targets/status.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "static"
+path = "fuzz_targets/static.rs"
+test = false
+doc = false
+
+[patch.'https://github.com/stellar/rs-soroban-sdk']
+soroban-sdk = { path = "../../../rs-soroban-sdk/soroban-sdk" }
+
+[patch.'https://github.com/stellar/rs-soroban-env']
+soroban-env-common = { path = "../../../rs-soroban-env/soroban-env-common" }
+soroban-env-host = { path = "../../../rs-soroban-env/soroban-env-host" }
+
+[patch.crates-io]
+soroban-sdk = { version = "0.6.0", path = "../../../rs-soroban-sdk/soroban-sdk" }
+soroban-auth = { version = "0.6.0", path = "../../../rs-soroban-sdk/soroban-auth" }
+soroban-env-common = { version = "0.0.14", path = "../../../rs-soroban-env/soroban-env-common" }
+soroban-env-host = { version = "0.0.14", path = "../../../rs-soroban-env/soroban-env-host" }
